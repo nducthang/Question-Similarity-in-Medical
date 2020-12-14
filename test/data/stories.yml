@@ -2,29 +2,24 @@ version: "2.0"
 
 stories:
 
-- story: happy path
+- story: chào - tạm biệt
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - intent: chao_hoi
+  - action: utter_chao_hoi
+  - intent: tam_biet
+  - action: utter_tam_biet
 
-- story: sad path 1
+- story: chào - đưa tên
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - intent: chao_hoi
+  - action: utter_chao_hoi
+  - intent: gioi_thieu_ten
+  - action: utter_chao_voi_ten
 
-- story: sad path 2
+- story: chào - hỏi tên
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - intent: chao_hoi
+  - action: utter_chao_hoi
+  - action: utter_hoi_ten
+  - intent: gioi_thieu_ten
+  - action: utter_chao_voi_ten
