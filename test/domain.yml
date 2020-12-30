@@ -1,0 +1,30 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- chao_hoi
+- tam_biet
+- gioi_thieu_ten
+entities:
+- entity_name
+- entity_sex
+slots:
+  entity_name:
+    type: text
+    influence_conversation: true
+  entity_sex:
+    type: text
+    influence_conversation: true
+responses:
+  utter_chao_hoi:
+  - text: Chào bạn, mình là Recare bot, rất vui được hỗ trợ
+  utter_tam_biet:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: Hẹn gặp lại bạn nhé, chúc bạn vui vẻ ^^
+  - text: Kính chào tạm biệt, chúc quý khách một ngày tốt lành
+  utter_hoi_ten:
+  - text: Chào quý khách, quý khách vui lòng cho biết tên để tiện xưng hô được không
+      ạ?
+  utter_chao_voi_ten:
+  - text: Chào {entity_sex} {entity_name}, Recare bot có thể giúp gì được cho {entity_sex}
+      ạ.
