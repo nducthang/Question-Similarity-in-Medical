@@ -1,8 +1,0 @@
-version: "2.0"
-
-rules:
-
-- rule: Nói tạm biệt mỗi khi người dùng tạm biệt
-  steps:
-  - intent: tam_biet
-  - action: utter_tam_biet
