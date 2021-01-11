@@ -5,6 +5,8 @@ intents:
 - chao_hoi
 - tam_biet
 - gioi_thieu_ten
+- hoi_kq_xo_so
+- mo_ta_benh
 entities:
 - entity_name
 - entity_sex
@@ -17,7 +19,7 @@ slots:
     influence_conversation: true
 responses:
   utter_chao_hoi:
-  - text: Chào bạn, mình là Recare bot, rất vui được hỗ trợ
+  - text: Chào bạn, mình là Deepcare bot, rất vui được hỗ trợ
   utter_tam_biet:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: Hẹn gặp lại bạn nhé, chúc bạn vui vẻ ^^
@@ -26,5 +28,8 @@ responses:
   - text: Chào quý khách, quý khách vui lòng cho biết tên để tiện xưng hô được không
       ạ?
   utter_chao_voi_ten:
-  - text: Chào {entity_sex} {entity_name}, Recare bot có thể giúp gì được cho {entity_sex}
+  - text: Chào {entity_sex} {entity_name}, Deepcare bot có thể giúp gì được cho {entity_sex}
       ạ.
+actions:
+- action_kq_xo_so
+- action_extract

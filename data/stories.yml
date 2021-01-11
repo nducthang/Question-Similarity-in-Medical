@@ -2,19 +2,10 @@ version: "2.0"
 
 stories:
 
-- story: chào - tạm biệt
+- story: tạm biệt
   steps:
-  - intent: chao_hoi
-  - action: utter_chao_hoi
   - intent: tam_biet
   - action: utter_tam_biet
-
-- story: chào - đưa tên
-  steps:
-  - intent: chao_hoi
-  - action: utter_chao_hoi
-  - intent: gioi_thieu_ten
-  - action: utter_chao_voi_ten
 
 - story: chào - hỏi tên
   steps:
@@ -23,3 +14,13 @@ stories:
   - action: utter_hoi_ten
   - intent: gioi_thieu_ten
   - action: utter_chao_voi_ten
+
+- story: hỏi kết quả xổ số
+  steps:
+  - intent: hoi_kq_xo_so
+  - action: action_kq_xo_so
+
+- story: Mô tả bệnh
+  steps:
+  - intent: mo_ta_benh
+  - action: action_extract

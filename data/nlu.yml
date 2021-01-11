@@ -38,3 +38,20 @@ nlu:
     - [Cô](entity_sex) là [Hằng](entity_name)
     - [Chú](entity_sex) [Hùng](entity_name)
 
+- intent: hoi_kq_xo_so
+  examples: |
+    - Cho anh xem kết quả xổ số
+    - Có kết quả chưa
+    - Mày cho anh hỏi kết quả tý
+    - Kết quả xổ số hôm nay thế nào
+
+- intent: mo_ta_benh
+  examples: |
+    - Anh bị đau bụng
+    - Anh bị sốt, anh nghĩ mình bị covid
+    - Tôi bị đau đầu
+    - Tôi cảm thấy chóng mặt, buồn nôn
+    - Chị bị sốt
+    - Minh bị đau tay
+    - hình như tôi bị lao phổi
+    - tôi thấy khó thở, liệu có phải lao phổi không
