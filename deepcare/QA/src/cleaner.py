@@ -44,11 +44,12 @@ class Cleaner:
         # Tokenization
         text = self.tokenizer(text)
         # Remove stop word
-        text = self.remove_stopwords(text)
+        text_rm = self.remove_stopwords(text)
         # [option] process synonym
         # [option] remove number
-
-        return text
+        if text_rm == '':
+            return text
+        return text_rm
 
 
 if __name__ == '__main__':
