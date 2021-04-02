@@ -3,15 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 
-data = pd.read_csv("./data.csv")
-
-
 def app():
+    data = pd.read_csv("./data.csv")
     st.title("Thống kê")
     labels = 'not_labeled', 'labeled'
     not_labeded = len(data[data['is_labeled'] == 0])
-    labeled = len(data[data['is_labeled'] == 1]) + 100
-    n = len(data) + 100
+    labeled = len(data[data['is_labeled'] == 1])
+    n = len(data)
 
     st.write('Tổng số bản ghi:', n)
     st.write('Đã gán nhãn:', labeled)

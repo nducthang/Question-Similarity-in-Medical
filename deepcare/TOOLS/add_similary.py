@@ -1,27 +1,72 @@
 import streamlit as st
 import pandas as pd
 
-
-data = pd.read_csv("./data.csv")
-for i in range(len(data)):
-    if data.iloc[i]['is_labeled'] == 0:
-        selected = i
-        break
-
 def app():
+    # Tìm kiếm xem ID nào chưa gán
+    data = pd.read_csv("./data.csv")
+    for i in range(len(data)):
+        if data.iloc[i]['is_labeled'] == 0:
+            selected = i
+            break
+
+    # Chuyển sang dạng list
+    data['question_similaries'] = data['question_similaries'].apply(eval)
     st.title("Gán nhãn câu hỏi tương đồng DeepCare.IO")
     id = st.number_input('ID:', min_value=0, value=selected)
+    st.write('Tình trạng: {}'.format('**Đã gán nhãn**' if data.iloc[id]['is_labeled']==1 else '**Chưa gán nhãn**'))
     question = data.iloc[id]['question']
     answer = data.iloc[id]['answer']
     left, right = st.beta_columns(2)
-    left.text_input('Câu hỏi:', value=question)
-    left.text_area('Câu trả lời:', value=answer)
+    
+    # Vùng hiển thị câu hỏi và câu trả lời
+    txt_quesion = left.text_input('Câu hỏi:', value=question)
+    txt_answer = left.text_area('Câu trả lời:', value=answer)
 
-    number_question = right.number_input(
-        'Số câu hỏi tương đồng muốn thêm:', min_value=1, max_value=10)
-    for i in range(number_question):
-        right.text_input(f'Câu hỏi tương đồng {i+1}')
+    # Vùng thêm câu hỏi tương đồng
+    values = []
+    if data.iloc[id]['is_labeled'] == 0:
+        min_value = 1
+        number_question = right.number_input('Số câu hỏi tương đồng muốn thêm:', min_value=1, max_value=10)
+        for i in range(number_question):
+            values.append(right.text_input(f'Câu hỏi tương đồng {i+1}'))
+    else:
+        min_value = len(data.iloc[id]['question_similaries'])
+        number_question = right.number_input('Số câu hỏi tương đồng muốn thêm:', min_value=min_value, max_value=10)
+        for i in range(number_question):
+            values.append(right.text_input(f'Câu hỏi tương đồng {i+1}', value=data.iloc[id]['question_similaries'][i]))
 
-    left2, right2 = st.beta_columns(2)
-    left2.button('Xóa câu hỏi này')
-    right2.button('Hoàn thành')
+    # Vùng button
+    left2, middle2 , right2 = st.beta_columns(3)
+    delete = left2.button('Xóa câu hỏi này')
+    clear = middle2.button('Xóa nhãn đã gán')
+    add = right2.button('Hoàn thành')
+
+    # Vùng hiển thị kết quả
+    if clear:
+        data.at[id,'is_labeled'] = 0
+        data.at[id,'question_similaries'] = []
+        st.write(data.iloc[id])
+        data.to_csv('./data.csv', index=False)
+        st.success(f'Xóa dữ liệu đã gán cho câu hỏi ID: {id} thành công! Ấn phím R để xem lại cập nhật!')
+
+    if delete:
+        data.drop(id,inplace=True)
+        data.reset_index(inplace=True)
+        data.to_csv('./data.csv', index=False)
+        st.info('Xóa dữ liệu thành công! Ấn phím R để xem lại cập nhật!')
+
+    if add:
+        update = True
+        for q in values:
+            if q == '':
+                st.error('Tồn tại form câu hỏi tương đồng trống')
+                update = False
+                break
+        if update:
+            data.at[id, 'question'] = txt_quesion
+            data.at[id, 'answer'] = txt_answer
+            data.at[id,'is_labeled'] = 1
+            data.at[id,'question_similaries'] = values
+            st.write(data.iloc[id])
+            data.to_csv('./data.csv', index=False)
+            st.success('Thêm dữ liệu thành công! Ấn phím R để xem lại cập nhật!')
