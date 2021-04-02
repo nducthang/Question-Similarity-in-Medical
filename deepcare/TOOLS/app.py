@@ -1,13 +1,13 @@
 import add_similary
-import thong_ke
+import statistical
 import streamlit as st
 
 PAGES = {
     "Thêm câu hỏi tương đồng": add_similary,
-    "Thống kê": thong_ke
+    "Thống kê": statistical
 }
 
-st.sidebar.title('MENU')
+st.sidebar.title('PAGES')
 selection = st.sidebar.selectbox('', list(PAGES.keys()))
 page = PAGES[selection]
 page.app()

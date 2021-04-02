@@ -22,5 +22,6 @@ def app():
     for i in range(number_question):
         right.text_input(f'Câu hỏi tương đồng {i+1}')
 
-    st.button('Xoá câu hỏi này')
-    st.button('Hoàn thành')
+    left2, right2 = st.beta_columns(2)
+    left2.button('Xóa câu hỏi này')
+    right2.button('Hoàn thành')
