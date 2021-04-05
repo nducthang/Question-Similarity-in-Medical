@@ -2,6 +2,7 @@ import add_similary
 import statistical
 import streamlit as st
 import add_sample
+import dataset
 
 def _max_width_():
     max_width_str = f"max-width: 2000px;"
@@ -21,6 +22,7 @@ _max_width_()
 PAGES = {
     "Gán nhãn câu hỏi tương đồng": add_similary,
     "Thêm dữ liệu": add_sample,
+    "Dataset": dataset,
     "Thống kê": statistical
 }
 
