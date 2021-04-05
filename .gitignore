@@ -1,3 +1,8 @@
 node_modules
-deepcare/QA/data
-deepcare/QA/saved_model
+unuse/deepcare/QA/data
+unuse/deepcare/QA/saved_model
+tool-labels/data
+tool-crawl/output.csv
+tool-crawl/output.json
+data
+.vscode
