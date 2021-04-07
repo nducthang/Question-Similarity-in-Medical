@@ -3,7 +3,7 @@ import pandas as pd
 
 def app():
     # Đọc dữ liệu
-    data = pd.read_csv("./data.csv")
+    data = pd.read_csv("./data/data.csv")
 
     st.title('Thêm dữ liệu')
     # chia cột

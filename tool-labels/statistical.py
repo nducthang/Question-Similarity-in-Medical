@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 def app():
-    data = pd.read_csv("./data.csv")
+    data = pd.read_csv("./data/data.csv")
     st.title("Thống kê")
     labels = 'not_labeled', 'labeled'
     not_labeded = len(data[data['is_labeled'] == 0])
