@@ -46,13 +46,13 @@ def app():
         data.at[id,'is_labeled'] = 0
         data.at[id,'question_similaries'] = []
         st.write(data.iloc[id])
-        data.to_csv('./data.csv', index=False)
+        data.to_csv('./data/data.csv', index=False)
         st.success(f'Xóa dữ liệu đã gán cho câu hỏi ID: {id} thành công! Ấn phím R để xem lại cập nhật!')
 
     if delete:
         data.drop(id,inplace=True)
         data.reset_index(inplace=True)
-        data.to_csv('./data.csv', index=False)
+        data.to_csv('./data/data.csv', index=False)
         st.info('Xóa dữ liệu thành công! Ấn phím R để xem lại cập nhật!')
 
     if add:
@@ -68,5 +68,5 @@ def app():
             data.at[id,'is_labeled'] = 1
             data.at[id,'question_similaries'] = values
             st.write(data.iloc[id])
-            data.to_csv('./data.csv', index=False)
+            data.to_csv('./data/data.csv', index=False)
             st.success('Thêm dữ liệu thành công! Ấn phím R để xem lại cập nhật!')

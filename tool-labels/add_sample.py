@@ -33,7 +33,7 @@ def app():
                 new_data['is_labeled'] = 1
                 new_data['question_similaries'] = values
                 data = data.append(new_data, ignore_index=True)
-                data.to_csv('./data.csv', index=False)
+                data.to_csv('./data/data.csv', index=False)
                 st.success(f'Đã thêm câu hỏi vào ID: {len(data)-1}')
         else:
             st.error(f'Không được bỏ trống form câu hỏi hoặc câu trả lời!')
