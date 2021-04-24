@@ -2,10 +2,31 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import base64
+from io import BytesIO
+import xlsxwriter
+
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='Sheet1')
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+
+def get_table_download_link(df):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    val = to_excel(df)
+    b64 = base64.b64encode(val)
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Download csv file</a>'
 
 def app():
     data = pd.read_csv("./data/data.csv")
     st.title("Thống kê")
+    st.markdown(get_table_download_link(data), unsafe_allow_html=True)
     labels = 'not_labeled', 'labeled'
     not_labeded = len(data[data['is_labeled'] == 0])
     labeled = len(data[data['is_labeled'] == 1])
@@ -18,8 +39,6 @@ def app():
     sizes = [not_labeded/n, labeled/n]
     explode = (0, 0.1)
     fig1, ax1 = plt.subplots()
-#     SMALL_SIZE = 3
-#     matplotlib.rc('font', size=SMALL_SIZE)
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')

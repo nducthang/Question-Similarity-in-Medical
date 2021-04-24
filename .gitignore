@@ -6,3 +6,4 @@ tool-crawl/output.csv
 tool-crawl/output.json
 data
 .vscode
+models
