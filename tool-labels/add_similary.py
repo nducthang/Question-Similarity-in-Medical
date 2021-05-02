@@ -1,16 +1,14 @@
 import streamlit as st
-import pandas as pd
+from utils import load_data, find_question_similary
 
-def app():
+def app(params = None):
+    data = load_data()
     # Tìm kiếm xem ID nào chưa gán
-    data = pd.read_csv("./data/data.csv")
     for i in range(len(data)):
         if data.iloc[i]['is_labeled'] == 0:
             selected = i
             break
 
-    # Chuyển sang dạng list
-    data['question_similaries'] = data['question_similaries'].apply(eval)
     st.title("Gán nhãn câu hỏi tương đồng DeepCare.IO")
     id = st.number_input('ID:', min_value=0, value=selected, max_value=len(data)-1)
     st.write('Tình trạng: {}'.format('**Đã gán nhãn**' if data.iloc[id]['is_labeled']==1 else '**Chưa gán nhãn**'))
@@ -25,11 +23,14 @@ def app():
     # Vùng thêm câu hỏi tương đồng
     values = []
     if data.iloc[id]['is_labeled'] == 0:
+        # Chưa được gán nhãn
+        lst_question_similary = find_question_similary(txt_quesion, params)
         min_value = 1
         number_question = right.number_input('Số câu hỏi tương đồng muốn thêm:', min_value=1, max_value=10)
         for i in range(number_question):
-            values.append(right.text_input(f'Câu hỏi tương đồng {i+1}'))
+            values.append(right.text_input(f'Câu hỏi tương đồng {i+1}', value = lst_question_similary[i]))
     else:
+        # Đã được gán nhãn
         min_value = len(data.iloc[id]['question_similaries'])
         number_question = right.number_input('Số câu hỏi tương đồng muốn thêm:', min_value=min_value, max_value=10)
         for i in range(number_question):
@@ -51,7 +52,7 @@ def app():
 
     if delete:
         data.drop(id,inplace=True)
-        data.reset_index(inplace=True)
+        # data.reset_index(inplace=True)
         data.to_csv('./data/data.csv', index=False)
         st.info('Xóa dữ liệu thành công! Ấn phím R để xem lại cập nhật!')
 

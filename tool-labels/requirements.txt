@@ -1,0 +1,6 @@
+pandas
+numpy
+streamlit
+xlsxwriter
+matplotlib
+gensim==3.8.3

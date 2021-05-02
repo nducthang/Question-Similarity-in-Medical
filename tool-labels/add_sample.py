@@ -1,10 +1,8 @@
 import streamlit as st
-import pandas as pd
+from utils import load_data
 
-def app():
-    # Đọc dữ liệu
-    data = pd.read_csv("./data/data.csv")
-
+def app(params = None):
+    data = load_data()
     st.title('Thêm dữ liệu')
     # chia cột
     left, right = st.beta_columns(2)
@@ -31,6 +29,12 @@ def app():
             new_data = {'answer': txt_answer, 'question': txt_question, 'is_labeled': 0, 'question_similaries': []}
             if number_question > 0:
                 new_data['is_labeled'] = 1
+                new_data['question_similaries'] = values
+                data = data.append(new_data, ignore_index=True)
+                data.to_csv('./data/data.csv', index=False)
+                st.success(f'Đã thêm câu hỏi vào ID: {len(data)-1}')
+            else:
+                new_data['is_labeled'] = 0
                 new_data['question_similaries'] = values
                 data = data.append(new_data, ignore_index=True)
                 data.to_csv('./data/data.csv', index=False)
