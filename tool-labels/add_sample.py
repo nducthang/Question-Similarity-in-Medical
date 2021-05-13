@@ -1,7 +1,7 @@
 import streamlit as st
 from utils import load_data
 
-def app(params = None):
+def app():
     data = load_data()
     st.title('Thêm dữ liệu')
     # chia cột

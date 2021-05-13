@@ -43,6 +43,8 @@ def find_question_similary(query, params, number = 10):
     query_doc = dictionary.doc2bow(query.split())
     scores = bm25_obj.get_scores(query_doc)
     best_docs = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:number + 1]
+    values = []
     for i, idx in enumerate(best_docs):
         lst_question_similary.append(" ".join(texts[idx]))
-    return lst_question_similary[1:]
+        values.append(scores[idx])
+    return lst_question_similary[1:], values
