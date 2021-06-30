@@ -1,15 +1,26 @@
 import torch
 import tqdm
-from utils import save_checkpoint, binary_accuracy, save_metric
+from utils import save_checkpoint, binary_accuracy, save_metric, load_metric
 
-def train(model, data_loaders_dict, num_epochs, optimizer, loss_fn, config, device):
+def train(model, data_loaders_dict, optimizer, loss_fn, config, device):
     train_loss_list = []
     val_loss_list = []
     train_acc_list = []
     val_acc_list = []
     best_valid_acc = (-1.0)*float("Inf")
 
-    for epoch in range(num_epochs):
+    current_epoch = 0
+
+    if config['LOAD_CHECKPOINT']:
+        static_dict = load_metric(config['PATH_METRIC'])
+        train_loss_list = static_dict['train_loss_list']
+        val_loss_list = static_dict['val_loss_list']
+        train_acc_list = static_dict['train_acc_list']
+        val_acc_list = static_dict['valid_acc_list']
+        best_valid_acc = static_dict['best_valid_acc']
+        current_epoch += len(train_loss_list)
+
+    for epoch in range(current_epoch, config['EPOCHS']):
         # Mỗi epoch sẽ thực hiện 2 phase
         for phase in ['train', 'val']:
             if phase == 'train':
@@ -46,6 +57,8 @@ def train(model, data_loaders_dict, num_epochs, optimizer, loss_fn, config, devi
             epoch_loss = epoch_loss / len(data_loaders_dict[phase].dataset)
             epoch_acc = epoch_acc / len(data_loaders_dict[phase].dataset)
             
+            print("Epoch {}/{} | {:^5} | Loss: {:.4f} | Acc: {:.2f} ".format(epoch + 1, config['EPOCHS'], phase, epoch_loss, epoch_acc))
+
             if phase == 'train':
                 train_loss_list.append(epoch_loss)
                 train_acc_list.append(epoch_acc)
@@ -53,12 +66,10 @@ def train(model, data_loaders_dict, num_epochs, optimizer, loss_fn, config, devi
                 val_loss_list.append(epoch_loss)
                 val_acc_list.append(epoch_acc)
 
-                if best_valid_acc > epoch_acc:
+                if best_valid_acc < epoch_acc:
                     best_valid_acc = epoch_acc
                     save_checkpoint(config['PATH_MODEL'], model, optimizer, best_valid_acc)
 
-            print("Phase:{:^5} | Epoch {}/{} | {:^5} | Loss: {:.4f} | Acc: {:.2f} ".format(phase, epoch + 1, num_epochs, phase, epoch_loss, epoch_acc))
-
-    save_metric(config['PATH_METRIC'], train_loss_list, val_loss_list, train_acc_list, val_acc_list)
+    save_metric(config['PATH_METRIC'], train_loss_list, val_loss_list, train_acc_list, val_acc_list, best_valid_acc)
 
 

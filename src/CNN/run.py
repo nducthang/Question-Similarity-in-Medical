@@ -2,15 +2,16 @@ from ruamel import yaml
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from utils import save_vocabulary
-from utils import build, preprocessing
+from utils import build, preprocessing, plot
 from CNN import CNN
 import tensorflow as tf
+import pickle
 
 # Load config
 config = yaml.safe_load(open('./src/CNN/config.yaml'))
 
 # Load data
-df_data = pd.read_csv(config['TRAIN_DATA'])[:500]
+df_data = pd.read_csv(config['TRAIN_DATA'])[:200]
 
 # build vocabulary
 df_data, vocabulary, word_to_num, num_to_word = build(df_data)
@@ -32,8 +33,6 @@ if __name__ == '__main__':
 
     model = CNN(config['INPUT_LENGTH'], num_word)
 
-    model.summary()
-
     model.compile(loss="binary_crossentropy",
                   optimizer="adam", metrics=["accuracy"])
 
@@ -45,11 +44,13 @@ if __name__ == '__main__':
         save_best_only=True
     )
 
-    model.fit([train_it['question1'], train_it['question2']], train_it['labels'],
-              batch_size=config['BATCH_SIZE'],
-              epochs=config['EPOCHS'],
-              validation_data=(
-        [val_it['question1'], val_it['question2']], val_it['labels']),
-        validation_batch_size=4*config['BATCH_SIZE'],
-        callbacks=[model_checkpoint_callback]
-    )
+    history = model.fit([train_it['question1'], train_it['question2']], train_it['labels'],
+                        batch_size=config['BATCH_SIZE'],
+                        epochs=config['EPOCHS'],
+                        validation_data=(
+                            [val_it['question1'], val_it['question2']], val_it['labels']),
+                        validation_batch_size=4*config['BATCH_SIZE'],
+                        callbacks=[model_checkpoint_callback]
+                        )
+    
+    plot(history, [['loss', 'val_loss'], ['accuracy', 'val_accuracy']])

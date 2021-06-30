@@ -3,7 +3,7 @@ import pandas as pd
 from keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import pickle
-
+import matplotlib.pyplot as plt
 
 def save_vocabulary(path, vocabulary, word_to_num, num_to_word):
     data = {'vocabulary': vocabulary,
@@ -62,3 +62,16 @@ def preprocessing(df, word_to_num):
     question2 = convert_data(df['question2'].tolist(), word_to_num)
     labels = np.array([int(l) for l in df['label'].tolist()])
     return {'question1': question1, 'question2': question2, 'labels': labels}
+
+
+def plot(history, arr):
+    fig, ax = plt.subplots(1, 2, figsize=(20, 5))
+    for idx in range(2):
+        ax[idx].plot(history.history[arr[idx][0]])
+        ax[idx].plot(history.history[arr[idx][1]])
+        ax[idx].legend([arr[idx][0], arr[idx][1]], fontsize=18)
+        ax[idx].set_xlabel('A', fontsize=16)
+        ax[idx].set_ylabel('B', fontsize=16)
+        ax[idx].set_title(arr[idx][0] + ' x ' + arr[idx][1], fontsize=16)
+    # plt.show()
+    plt.savefig('./models/cnn/result.png', dpi=300, bbox_inches='tight')

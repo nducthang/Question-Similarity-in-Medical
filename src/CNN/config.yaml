@@ -2,5 +2,5 @@ TRAIN_DATA: './data/train.csv'
 MODEL_PATH: './models/cnn/cnn.bin'
 VOCABULARY: './models/cnn/vocab.bin'
 INPUT_LENGTH: 50
-BATCH_SIZE: 16
-EPOCHS: 20
+BATCH_SIZE: 1024
+EPOCHS: 50

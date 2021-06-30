@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Dropout, Flatten, Input, MaxPooling1D, Conv1D, Conv2D, Embedding, Dot
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Input, MaxPooling1D, Conv1D, Embedding, Dot
 from keras.layers.merge import Concatenate
 
 

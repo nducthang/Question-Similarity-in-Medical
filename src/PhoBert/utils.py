@@ -7,7 +7,7 @@ def loss_fn(outputs, targets):
     # Loss function = binary cross entropy loss
     # using sigmoid to put probabilities in [0,1] interval
     # outputs = torch.squeeze(outputs)
-    outputs = outputs.view(1)
+    outputs = outputs.view(-1)
     return nn.BCELoss()(nn.Sigmoid()(outputs), targets)
 
 
@@ -74,12 +74,30 @@ def binary_accuracy(preds, y):
     acc = correct.sum() / len(correct)
     return acc
 
-def save_metric(save_path, train_loss_list, val_loss_list, train_acc_list, valid_acc_list):
+def save_metric(save_path, train_loss_list, val_loss_list, train_acc_list, valid_acc_list, best_valid_acc):
     if save_path == None:
         return
     state_dict = {'train_loss_list': train_loss_list,
-                'val_loss_lost': val_loss_list,
+                  'val_loss_list': val_loss_list,
                   'train_acc_list': train_acc_list,
-                  'valid_acc_list': valid_acc_list}
+                  'valid_acc_list': valid_acc_list,
+                  'best_valid_acc': best_valid_acc}
     torch.save(state_dict, save_path)
     print(f'Metric saved to ==> {save_path}')
+
+def load_checkpoint(load_path, model, optimizer):
+    if load_path == None:
+        return
+    state_dict = torch.load(load_path)
+    print(f'Model loaded from <== {load_path}')
+    model.load_state_dict(state_dict['model_state_dict'])
+    optimizer.load_state_dict(state_dict['optimizer_state_dict'])
+
+    return state_dict['valid_acc']
+
+def load_metric(load_path):
+    if load_path == None:
+        return
+    state_dict = torch.load(load_path)
+    print(f'Metric load from <== {load_path}')
+    return state_dict
