@@ -1,0 +1,10 @@
+learning_rate: 0.01
+boosting_type: 'dart'
+application: 'binary'
+objective: 'binary'
+metric: 'auc'
+sub_feature: 0.5
+num_leaves: 31
+min_data: 50
+min_hessian: 1
+verbose: 1

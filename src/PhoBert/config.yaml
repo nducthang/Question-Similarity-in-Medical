@@ -1,0 +1,8 @@
+MAX_LEN: 50
+SEED: 2809
+DATA_TRAIN: './data/train.csv'
+PHOBERT_VERSION: 'vinai/phobert-base'
+EPOCHS: 10
+BATCH_SIZE: 1
+PATH_MODEL: './models/phobert.bin'
+PATH_METRIC: './models/metrics.pt'

@@ -1,0 +1,3 @@
+objective: 'binary:logistic'
+eval_metric: 'auc'
+eta: 0.02
